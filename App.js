@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, ScrollView } from 'react-native';
 import moment from 'moment';
 
 const DATA = {
@@ -41,6 +41,31 @@ ButtonsRow = ({ children }) => {
 };
 
 
+Lap = ({ number, interval }) => {
+  return(
+    <View style={ styles.lap }>
+      <Text style={ styles.lapText }>Lap { number }</Text>
+      <Text style={ styles.lapText }>{ interval }</Text>
+    </View>
+  );
+};
+
+
+LapsTable = ({ laps }) => {
+  return(
+    <ScrollView style={ styles.scrollView }>
+      { laps.map((lap, index) => (
+        <Lap 
+          number={ laps.length - index } 
+          key={ laps.length - index } 
+          interval={ lap }
+        />
+      ))}
+    </ScrollView>
+  );
+};
+
+
 class App extends Component {
 
   render() {
@@ -51,6 +76,7 @@ class App extends Component {
           <RoundButton title='Reset' color='#fff' background='#666' />
           <RoundButton title='Start' color='#fff' background='#090' />
         </ButtonsRow>
+        <LapsTable laps={ DATA.laps }/>
       </View>
     );
   }
@@ -94,7 +120,22 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignSelf: 'stretch',
     justifyContent: 'space-between',
-    marginTop: 80
+    marginTop: 80,
+    marginBottom: 30,
+  },
+  lap: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    borderColor: '#fff',
+    borderTopWidth: 1,
+    paddingVertical: 10,
+  },
+  lapText: {
+    color: '#fff',
+    fontSize: 18,
+  },
+  scrollView: {
+    alignSelf: 'stretch'
   }
 });
 
